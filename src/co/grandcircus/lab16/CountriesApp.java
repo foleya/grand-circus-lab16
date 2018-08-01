@@ -45,7 +45,7 @@ public class CountriesApp {
 				pause(scnr);
 				break;
 			case ("Delete Country"):
-				deleteCountry(fileUtil);
+				deleteCountry(fileUtil, scnr);
 				pause(scnr);
 				break;
 			case ("Quit Program"):
@@ -59,13 +59,31 @@ public class CountriesApp {
 
 	}
 
-	private static void deleteCountry(CountryFileUtil fileUtil) {
-		// Let user chose which country to delete
-
-		Country countryToDelete = new Country("San Marino");
-		fileUtil.deleteItem(countryToDelete);
-		
-		System.out.println("Great! " + countryToDelete.getName() + " was deleted!");
+	// TODO: What if there are no countries?
+	private static void deleteCountry(CountryFileUtil fileUtil, Scanner scnr) {
+		List<Country> list = fileUtil.readFile();
+		if (list.size() != 0) {
+			// If there are countries, print them all
+			System.out.println("Select the country you would like to delete (1-" + list.size() + "):");
+			for (int i = 0; i < list.size(); i++) {
+				System.out.println((i + 1) + ". " + list.get(i).name);
+			}
+			
+			// TODO: Validation!!
+			int indexOfCountry = Integer.parseInt(scnr.nextLine().trim()) - 1;
+			
+			// get country from list by index
+			fileUtil.deleteItem(list.get(indexOfCountry));
+			
+			// TODO: Add confirmation?
+			
+			// Confirm deletion.
+			System.out.println("Great! " + list.get(indexOfCountry).getName() + " was deleted!");
+			
+		} else {
+			// Otherwise inform the user the list is empty
+			System.out.println("Sorry! There are no countries in the list!");
+		}
 
 	}
 
@@ -84,10 +102,16 @@ public class CountriesApp {
 	}
 
 	private static void listCountries(CountryFileUtil fileUtil) {
-		System.out.println("Here is the current list of countries:");
 		List<Country> list = fileUtil.readFile();
-		for (int i = 0; i < list.size(); i++) {
-			System.out.println((i + 1) + ". " + list.get(i).name);
+		if (list.size() != 0) {
+			// If there are countries, print them all
+			System.out.println("Here is the current list of countries:");
+			for (int i = 0; i < list.size(); i++) {
+				System.out.println((i + 1) + ". " + list.get(i).name);
+			}
+		} else {
+			// Otherwise inform the user the list is empty
+			System.out.println("Sorry! There are no countries in the list!");
 		}
 	}
 
