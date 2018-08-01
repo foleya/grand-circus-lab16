@@ -11,7 +11,7 @@ public class CountriesApp {
 
 		CountryFileUtil fileUtil = new CountryFileUtil();
 		Scanner scnr = new Scanner(System.in);
-		
+
 		boolean programRunning = true;
 		System.out.println("Welcome to the Country List Reader/Writer!");
 
@@ -45,6 +45,8 @@ public class CountriesApp {
 				pause(scnr);
 				break;
 			case ("Delete Country"):
+				deleteCountry(fileUtil);
+				pause(scnr);
 				break;
 			case ("Quit Program"):
 				programRunning = false;
@@ -54,6 +56,16 @@ public class CountriesApp {
 		} while (programRunning);
 
 		System.out.println("\nThanks for using the Country List Reader/Writer! Goodbye!");
+
+	}
+
+	private static void deleteCountry(CountryFileUtil fileUtil) {
+		// Let user chose which country to delete
+
+		Country countryToDelete = new Country("San Marino");
+		fileUtil.deleteItem(countryToDelete);
+		
+		System.out.println("Great! " + countryToDelete.getName() + " was deleted!");
 
 	}
 
